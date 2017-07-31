@@ -3,10 +3,12 @@ Exp1.py
 
 Generate data for experiment 1
 """
-
 import os
 import numpy as np 
-import h5py 
+import h5py  
+import scipy.stats 
+from utils import *
+ 
 
 if not os.path.isdir("exp1"):
     os.makedirs("exp1")
@@ -16,9 +18,8 @@ uncs = np.array([0.004, 0.015, 0.003, 0.004, 0.013, 0.010, 0.006])
 uncs = np.array([0.003 ,  0.015 ,  0.004 ,  0.004  , 0.015 ,  0.008 ,  0.003])**2
 
 
-N = 40
+N = 35
 
-shape = (365, 300, 200)
 
 for site in ['h24v03', "h11v10", "h20v09"]:
     """

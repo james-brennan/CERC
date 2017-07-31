@@ -4,45 +4,12 @@ Exp5.py
     Poor sampled Clean signal (BRDF corrected)
      with additive noise of low, medium and high values;
 """ 
-
 import os
 import numpy as np 
 import h5py  
 import scipy.stats 
+from utils import *
 
-
-def cloudModel(PsPs, PcPc):
-    """
-    simple markov chain model 
-    for qa field
-    """
-    PsPc = 1 - PsPs
-    PcPs = 1 - PcPc
-    """
-    transition matrix -- don't really need...
-    """
-    P = np.array([[PsPs, PsPc],
-                  [PcPs, PcPc]])
-    """
-    initial condintion
-    """
-    sunny = True
-    t0 = np.random.choice([False, True])
-    """
-    run realisation
-    """
-    clear = []
-    t = t0
-    for k in xrange(365):
-        # predict tomorrow
-        if t == sunny:
-            t1 = bool(scipy.stats.bernoulli.rvs(PsPs))
-        else:
-            t1 = not bool(scipy.stats.bernoulli.rvs(PcPc))
-        clear.append(t1)
-        t = t1
-    clear = np.array(clear)
-    return clear  
 
 
 if __name__ == "__main__":
@@ -55,9 +22,8 @@ if __name__ == "__main__":
     uncs = np.array([0.003 ,  0.015 ,  0.004 ,  0.004  , 0.015 ,  0.008 ,  0.003])**2
 
 
-    N = 50
+    N = 35
 
-    shape = (365, 300, 200)
 
     """
     Load stuff
@@ -100,5 +66,4 @@ if __name__ == "__main__":
                 """
                 # save
                 np.save("Exp5_%s_%i.npz", (iso_copy*255).astype(np.uint8))
-
 
