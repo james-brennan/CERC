@@ -66,18 +66,17 @@ if __name__ == "__main__":
             for i in xrange(N):
                 
                 iso_copy = np.copy(iso)
-                iso_copy += noise
                 # add BRDF
                 kerns, VZA, SZA, RAA = angular1(brdfDict['medium'])
                 # simulate it
-                angg = geo * kerns.Li + vol * kerns.Ross 
+                angg = geo * kerns.Li[:-1][:, None, None, None] + vol * kerns.Ross[:-1][:, None, None, None]
                 # add BRDF
-                iso_copy += angg 
+                iso_copy += 1.5*angg 
                 # make noise 
                 noise = np.random.multivariate_normal(np.zeros(7), cov, size=shape)
                 noise = np.swapaxes(noise, 3, 1)
                 # add noise
                 iso_copy += noise
                 # save
-                np.save("Exp2_%s_%i.npz", iso_copy)
+                np.save("Exp2_%s_sn_%2f_%i" % (site, sn, i), (iso_copy*255).astype(np.uint8))
 

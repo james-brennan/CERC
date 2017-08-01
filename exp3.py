@@ -67,6 +67,6 @@ if __name__ == "__main__":
                 *255
                 """
                 # save
-                np.save("Exp3_%s_%i.npz", (iso_copy*255).astype(np.uint8))
+                np.save("Exp3_%s_sn_%2f_%i" % (site, sn, i),  (iso_copy*255).astype(np.uint8))
 
 

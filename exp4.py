@@ -68,7 +68,7 @@ if __name__ == "__main__":
                 # add BRDF
                 kerns, VZA, SZA, RAA = angular1(brdfDict['medium'])
                 # simulate it
-                angg = geo * kerns.Li + vol * kerns.Ross 
+                angg = geo * kerns.Li[:-1][:, None, None, None] + vol * kerns.Ross[:-1][:, None, None, None]
                 # add BRDF
                 iso_copy += angg 
                 # add clouds for partial
@@ -87,5 +87,5 @@ if __name__ == "__main__":
                 *255
                 """
                 # save
-                np.save("Exp4_%s_%i.npz", (iso_copy*255).astype(np.uint8))
+                np.save("Exp4_%s_sn_%2f_%i" % (site, sn, i), (iso_copy*255).astype(np.uint8))
 
